@@ -276,7 +276,6 @@ bool parseCMD(int32_t argc, char** argv, t_cmd& cmd) {
                 */
             }
         }
-        }
         else if (arg == "delay-before" || arg == "--delay-before") {
             if (remaining < 1) return false;
             cmd.delayBeforePTS = (uint32_t)std::round(std::atof(argv[i++]) * MS_TO_PTS_MULT);
