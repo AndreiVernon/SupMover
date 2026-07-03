@@ -80,6 +80,10 @@ struct t_cmd {
     std::string outputFile;
     bool trace = false;
     int32_t delay = 0;
+    bool hasDelayBefore = false;
+    uint32_t delayBeforePTS = 0;
+    bool hasDelayAfter = false;
+    uint32_t delayAfterPTS = 0;
     t_move move = {};
     t_crop crop = {};
     double resync = 1;
@@ -271,6 +275,17 @@ bool parseCMD(int32_t argc, char** argv, t_cmd& cmd) {
                 }
                 */
             }
+        }
+        }
+        else if (arg == "delay-before" || arg == "--delay-before") {
+            if (remaining < 1) return false;
+            cmd.delayBeforePTS = (uint32_t)std::round(std::atof(argv[i++]) * MS_TO_PTS_MULT);
+            cmd.hasDelayBefore = true;
+        }
+        else if (arg == "delay-after" || arg == "--delay-after") {
+            if (remaining < 1) return false;
+            cmd.delayAfterPTS = (uint32_t)std::round(std::atof(argv[i++]) * MS_TO_PTS_MULT);
+            cmd.hasDelayAfter = true;
         }
         else if (arg == "move" || arg == "--move") {
             if (remaining < 2) return false;
@@ -488,6 +503,8 @@ Usage:  SupMover <input.sup> [<output.sup>] [OPTIONS ...]
 OPTIONS:
   --trace
   --delay <ms>
+  --before <ms>
+  --after <ms>
   --move <delta x> <delta y>
   --symmetrical
   --move-list <list of sections>
@@ -511,6 +528,8 @@ Delay and resync command are executed in the order supplied.
 EXPLANATION
     trace: output the content of the SUP file
     delay: move all timestamp by the specified ms
+    before: only apply delay to timestamps before or equal to this ms
+    after: only apply delay to timestamps after or equal to this ms
     resync: speedup or speedown all timestamp by the specified amount
     move: move the position of all subpitcure by the specified amount (move is always done before crop)
     symmetrical: apply the move command in a symmetrical way towards the center

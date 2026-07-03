@@ -208,13 +208,24 @@ int main(int32_t argc, char** argv)
                     header.pts = (uint32_t)std::round((double)header.pts * cmd.resync);
                 }
                 if (doDelay) {
-                    if (   cmd.delay < 0
-                        && header.pts < abs(cmd.delay)) {
-                        std::fprintf(stderr, "Object at timestamp %s starts before the full delay amount, it was set to start at 0!\n", timestampString);
-                        header.pts = 0;
+                    bool applyDelay = true;
+                    
+                    if (cmd.hasDelayBefore && header.pts > cmd.delayBeforePTS) {
+                        applyDelay = false;
                     }
-                    else {
-                        header.pts = header.pts + cmd.delay;
+                    if (cmd.hasDelayAfter && header.pts < cmd.delayAfterPTS) {
+                        applyDelay = false;
+                    }
+
+                    if (applyDelay) {
+                        if (   cmd.delay < 0
+                            && header.pts < abs(cmd.delay)) {
+                            std::fprintf(stderr, "Object at timestamp %s starts before the full delay amount, it was set to start at 0!\n", timestampString);
+                            header.pts = 0;
+                        }
+                        else {
+                            header.pts = header.pts + cmd.delay;
+                        }
                     }
                 }
 
