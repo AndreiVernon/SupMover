@@ -528,8 +528,8 @@ Delay and resync command are executed in the order supplied.
 EXPLANATION
     trace: output the content of the SUP file
     delay: move all timestamp by the specified ms
-    delay-before: only apply delay to timestamps before or equal to this ms (WARNING - improper use of this feature can result in corruption, make sure no subtitle events overlap)
-    delay-after: only apply delay to timestamps after or equal to this ms
+    delay-before: only apply delay to timestamps before or equal to this ms (warning: improper use can result in overlapping events)
+    delay-after: only apply delay to timestamps after or equal to this ms (warning: improper use can result in overlapping events)
     resync: speedup or speedown all timestamp by the specified amount
     move: move the position of all subpitcure by the specified amount (move is always done before crop)
     symmetrical: apply the move command in a symmetrical way towards the center

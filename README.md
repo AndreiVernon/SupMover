@@ -8,6 +8,8 @@ Usage:  SupMover <input.sup> [<output.sup>] [OPTIONS ...]
 OPTIONS:
   --trace
   --delay <ms>
+  --delay-before <ms>
+  --delay-after <ms>
   --move <delta x> <delta y>
   --symmetrical
   --move-list <list of sections>
@@ -33,6 +35,8 @@ LIST FORMAT OPTION
 
 * `--delay `
   * Apply a milliseconds delay, positive or negative, to all the subpic of the subtitle, it can be fractional as the SUP speficication have a precision of 1/90ms
+* `--delay-before` / `--delay-after`
+  * Only apply delay to events starting before / after or at this millisecond. (Warning: avoid causing events to overlap, this can cause presentation issues).
 * `--resync`
   * Multiply all the timestamp by this factor, this can also be supplied as a fraction like `25025/24000`
 * `--delay` + `--resync`
